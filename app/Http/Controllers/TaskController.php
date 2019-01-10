@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\StoreTaskRequest;
 use App\Task;
 
 class TaskController extends Controller
@@ -25,7 +27,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create');
     }
 
     /**
@@ -34,9 +36,11 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        //
+        Task::create($request->all());
+        // return redirect()->route('task.index');
+        return back()->with("status", "Your task is created ;P");
     }
 
     /**
@@ -47,7 +51,8 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return view('task.show', compact('task'));
     }
 
     /**
@@ -58,7 +63,8 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return view('task.edit', compact('task'));
     }
 
     /**
@@ -68,9 +74,11 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
-        //
+        Task::findOrFail($id)->update($request->all);
+
+        return redirect()->route('task.index');
     }
 
     /**
@@ -81,6 +89,7 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Task::findOrFail($id)->delete();
+        return redirect()->route('task.index');
     }
 }
