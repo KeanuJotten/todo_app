@@ -19,4 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('task', 'TaskController@index');
+Route::group(['middleware' => 'auth'], function(){
+    Route::resource('task', 'TaskController');
+});
+
+
