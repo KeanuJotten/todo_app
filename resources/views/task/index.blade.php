@@ -7,7 +7,7 @@
           <div class="card-body">
             <h5 class="card-title">Tasks</h5>
             <h6 class="card-subtitle mb-2 text-muted">What to do...?</h6>
-            <table class="table">
+            <table id="taskTable" class="table">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">#</th>
@@ -18,10 +18,12 @@
               <tbody>
                  @foreach ($tasks as $task)
                     <tr>
-                        <th scope="row">{{ $task->id }}</th>
+                        <td>{{ $task->id }}</td>
                         <td>{{ $task->title }}</td>
-                    <td><a href="{{ route('task.edit', $task->id) }}">edit</a></td>
-                    <td><a href="{{ route('task.show', $task->id) }}">Details</a></td>
+                    <td>
+                      <a href="{{ route('task.edit', $task->id) }}" style="margin-right: 15px;"><i class="fa fa-pencil"></i></a>
+                      <a href="{{ route('task.show', $task->id) }}"><i class="fa fa-eye"></i></a>
+                    </td>
                     </tr>
                 @endforeach
               </tbody>
@@ -31,3 +33,8 @@
   </div>
 </div>
 @endsection
+@push('datatable-scripts')
+<script>
+    $('#taskTable').DataTable();
+</script>
+@endpush

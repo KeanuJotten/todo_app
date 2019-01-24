@@ -40,7 +40,8 @@ class TaskController extends Controller
     {
         Task::create($request->all());
         // return redirect()->route('task.index');
-        return back()->with("status", "Your task is created ;P");
+        // return back()->with("status", "Your task is created ;P");
+        return response()->json(['success' => 'Your task is created ;P']);
     }
 
     /**
@@ -76,7 +77,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, $id)
     {
-        Task::findOrFail($id)->update($request->all);
+        Task::findOrFail($id)->update($request->all());
 
         return redirect()->route('task.index');
     }
